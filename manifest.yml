@@ -1,0 +1,6 @@
+applications:
+  - name: WebFluxApp
+    random-route: true
+    path: target/WebFluxApp-0.0.1.jar
+    memory: 240M
+    instances: 1

@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS person;
+
+CREATE TABLE person (
+  id INT AUTO_INCREMENT  PRIMARY KEY,
+  firstname VARCHAR(250) NOT NULL,
+  lastname VARCHAR(250) NOT NULL,
+  profession VARCHAR(250) NOT NULL);
