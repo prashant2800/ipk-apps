@@ -8,7 +8,7 @@ import javax.persistence.*;
 public class Person {
     @Id
     @Column
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 
     public String getFirstname() {
