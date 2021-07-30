@@ -8,8 +8,25 @@ import javax.persistence.*;
 public class Person {
     @Id
     @Column
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column
+    private String firstname;
+
+    @Column
+    private String lastname;
+
+    @Column
+    private String profession;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getFirstname() {
         return firstname;
@@ -25,21 +42,6 @@ public class Person {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
-    }
-
-    @Column
-    private String firstname;
-    @Column
-    private String lastname;
-    @Column
-    private String profession;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getProfession() {
