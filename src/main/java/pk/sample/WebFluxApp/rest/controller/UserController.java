@@ -6,7 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pk.sample.WebFluxApp.model.Person;
 import pk.sample.WebFluxApp.service.UserService;
+import reactor.core.publisher.Flux;
 
+
+import java.time.Duration;
 import java.util.List;
 
 @RestController
@@ -34,5 +37,9 @@ public class UserController {
     {
         userService.saveOrUpdate(user);
         return ResponseEntity.ok(Integer.valueOf(user.getId()));
+    }
+    @GetMapping(value = "/stream/json/flux", produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
+    public Flux<List<Person>> streamJsonObjects() {
+        return Flux.interval(Duration.ofSeconds(10)).map(i -> userService.getAllUsers());
     }
 }

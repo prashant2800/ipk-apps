@@ -6,6 +6,7 @@ import pk.sample.WebFluxApp.model.Person;
 import pk.sample.WebFluxApp.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class UserService {
@@ -17,9 +18,14 @@ public class UserService {
         userRepository.findAll().forEach(student -> users.add(student));
         return users;
     }
-    public Person getUserById(int id)
-    {
-        return userRepository.findById(id).get();
+
+    public Person getUserById(int id) {
+        try {
+            return userRepository.findById(id).get();
+        } catch (NoSuchElementException e) {
+            return null;
+        }
+
     }
     public void saveOrUpdate(Person student)
     {
