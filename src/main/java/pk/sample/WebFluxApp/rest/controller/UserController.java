@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pk.sample.WebFluxApp.exceptions.UserNotFoundException;
 import pk.sample.WebFluxApp.model.Person;
 import pk.sample.WebFluxApp.service.UserService;
 import reactor.core.publisher.Flux;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 public class UserController {
+
     @Autowired
     UserService userService;
 
@@ -25,6 +27,8 @@ public class UserController {
     @GetMapping(path = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     private ResponseEntity<Person> getUser(@PathVariable("id") int id)
     {
+        if(null ==  userService.getUserById(id))
+            throw new UserNotFoundException();
         return ResponseEntity.ok(userService.getUserById(id));
     }
     @DeleteMapping(path = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -35,6 +39,15 @@ public class UserController {
     @PostMapping(path = "/user", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     private ResponseEntity<Integer> saveUser(@RequestBody Person user)
     {
+        userService.saveOrUpdate(user);
+        return ResponseEntity.ok(Integer.valueOf(user.getId()));
+    }
+    @PutMapping(path = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    private ResponseEntity<Integer> updateUser(@PathVariable("id") int id, @RequestBody Person user)
+    {
+        if(null ==  userService.getUserById(id))
+            throw new UserNotFoundException();
+        user.setId(id);
         userService.saveOrUpdate(user);
         return ResponseEntity.ok(Integer.valueOf(user.getId()));
     }
